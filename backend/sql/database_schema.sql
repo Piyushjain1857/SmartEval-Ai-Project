@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS history (
 -- Question 
 CREATE TABLE IF NOT EXISTS question (
     id SERIAL PRIMARY KEY ,
-    question_no INT NOT NULL,
+    question_no INT NOT NULL UNIQUE,
     question_text TEXT NOT NULL,
     answer TEXT NOT NULL,
     m_marks INT NOT NULL,
