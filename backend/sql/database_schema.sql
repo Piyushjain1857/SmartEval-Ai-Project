@@ -61,3 +61,15 @@ CREATE TABLE IF NOT EXISTS history (
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Question 
+CREATE TABLE IF NOT EXISTS question (
+    id SERIAL PRIMARY KEY ,
+    question_no INT NOT NULL,
+    question_text TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    m_marks INT NOT NULL,
+    created_by: Text,
+    created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    
+);

@@ -116,3 +116,14 @@ class NotificationDB(Base):
 
     farmer: Mapped["UserDB"] = relationship("UserDB", back_populates="notifications")
 
+class QuestionDB(Base):
+    __tablename__ = "questions"
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    question_no: Mapped[int] = mapped_column(Integer, nullable=True)
+    question_text: Mapped[str] = mapped_column(String(255))
+    answer: Mapped[str] = mapped_column(String(255))
+    m_marks: Mapped[int] = mapped_column(Integer)
+    created_by: Mapped[str] = mapped_column(String(255) , nullable=True)
+    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    

@@ -104,3 +104,16 @@ class Notification(NotificationBase):
 
     class Config:
         from_attributes = True
+
+
+class QuestionBase(BaseModel):
+    question_text: str
+    answer: int
+    m_marks: int
+    question_no: int
+
+class QuestionResponse(QuestionBase):
+    id: int
+
+    class Config:
+        from_attributes = True

@@ -10,7 +10,8 @@ import {
     Bell,
     Bot,
     MessageSquare,
-    ClipboardCheck
+    ClipboardCheck,
+    BarChart
 } from 'lucide-react';
 
 
@@ -19,19 +20,18 @@ const useNavItems = () => {
 
     const farmerMenuItems = [
         { id: 'dashboard', label: t('dashboard'), path: '/dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'profile', label: t('personal_details'), path: '/profile', icon: <User size={20} /> },
-        { id: 'land', label: t('land_details'), path: '/land', icon: <Map size={20} /> },
-        { id: 'crops', label: t('crop_details'), path: '/crops', icon: <Sprout size={20} /> },
-        { id: 'history', label: t('past_history'), path: '/history', icon: <History size={20} /> },
-        { id: 'chatbot', label: t('chatbot'), path: '/chatbot', icon: <Bot size={20} /> },
-        { id: 'discussions', label: t('discussions'), path: '/discussions', icon: <MessageSquare size={20} /> },
-        { id: 'action-plan', label: t('Action Plan'), path: '/action-plan', icon: <ClipboardCheck size={20} /> },
+        { id: 'Question Bank', label: t('Question Bank'), path: '/question-bank', icon: <User size={20} /> },
+        { id: 'Question Papers', label: t('Question Papers'), path: '/question-papers', icon: <Map size={20} /> },
+        { id: 'Evaluations', label: t('Evaluations'), path: '/Evaluations', icon: <Sprout size={20} /> },
+        { id: 'Reports', label: t('Reports'), path: '/Reports', icon: <History size={20} /> },
+        { id: 'Notifications', label: t('Notifications'), path: '/Notifications', icon: <Bell size={20} /> },
+        { id: 'Profile', label: t('Profile'), path: '/Profile', icon: <User size={20} /> },
     ];
 
-
     const adminMenuItems = [
-        { id: 'farmers', label: t('farmers_list') || 'Farmers', path: '/admin/farmers', icon: <Users size={18} /> },
-        { id: 'broadcast', label: 'Broadcast Alerts', path: '/admin/broadcast', icon: <Bell size={18} /> },
+        { id: 'Users', label: t('Users'), path: '/users', icon: <User size={20} /> },
+        { id: 'Teachers', label: t('Teachers'), path: '/teachers', icon: <User size={20} /> },
+        { id: 'Clerks', label: t('Clerks'), path: '/clerks', icon: <User size={20} /> },
     ];
 
     return { farmerMenuItems, adminMenuItems };

@@ -198,7 +198,7 @@ const ChatFloatingWidget = () => {
                 <Bot size={20} color="white" />
               </div>
               <div>
-                <h4>AgroGuard AI</h4>
+                <h4>SmartEval AI</h4>
                 <div className="status-online">
                   <span className="dot"></span> Online
                 </div>

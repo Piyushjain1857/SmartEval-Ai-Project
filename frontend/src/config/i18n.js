@@ -5,7 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
-      "app_name": "AgroGuard AI",
+      "app_name": "SmartEval AI",
       "login": "Login",
       "signup": "Sign Up",
       "username": "Email Address",
