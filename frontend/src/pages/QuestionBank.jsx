@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -10,11 +11,6 @@ const styles = {
     borderRadius: "16px",
     boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
     fontFamily: "Arial, sans-serif",
-  },
-  heading: {
-    textAlign: "center",
-    marginBottom: "20px",
-    color: "#1f2937",
   },
   form: {
     display: "grid",
@@ -27,15 +23,6 @@ const styles = {
     border: "1px solid #d1d5db",
     borderRadius: "8px",
     fontSize: "14px",
-  },
-  button: {
-    background: "#2563eb",
-    color: "#fff",
-    border: "none",
-    padding: "12px 20px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontWeight: "bold",
   },
   deleteButton: {
     background: "#dc2626",
@@ -102,16 +89,20 @@ const styles = {
     padding: "12px",
     borderBottom: "1px solid #e5e7eb",
   },
+  editButton: {
+    background: "#f59e0b",
+    color: "#fff",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginRight: "8px",
+  },
 };
 
 const QuestionBank = () => {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
-  const [newQuestion, setNewQuestion] = useState({
-    question_text: "",
-    answer: "",
-    m_marks: 1,
-    question_no: 1,
-  });
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -134,29 +125,6 @@ const QuestionBank = () => {
     fetchData();
   }, []);
 
-  const handleChange = (e) => {
-    setNewQuestion({ ...newQuestion, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post("http://localhost:8000/question/", newQuestion, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setNewQuestion({
-        question_text: "",
-        answer: "",
-        m_marks: 1,
-        question_no: 1,
-      });
-      fetchData();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -170,32 +138,18 @@ const QuestionBank = () => {
     }
   };
 
+  const handleEdit = (id) => {
+    navigate(`/question-bank-details/${id}`);
+  };
+
+  const handleView = (id) => {
+    navigate(`/question-bank-details/${id}`);
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <div style={styles.container}>
-
-      <h2 style={styles.heading}>📚 Question Management</h2>
-
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div>
-          <label>Question Number *</label>
-          <input type="number" name="question_no" value={newQuestion.question_no} onChange={handleChange} required style={styles.input} />
-        </div>
-        <div>
-          <label>Marks *</label>
-          <input type="number" name="m_marks" value={newQuestion.m_marks} onChange={handleChange} required style={styles.input} />
-        </div>
-        <div>
-          <label>Question Text *</label>
-          <textarea name="question_text" value={newQuestion.question_text} onChange={handleChange} required style={styles.input} />
-        </div>
-        <div>
-          <label>Answer *</label>
-          <input type="text" name="answer" value={newQuestion.answer} onChange={handleChange} required style={styles.input} />
-        </div>
-        <button type="submit" style={styles.button}>Add Question</button>
-      </form>
 
       <h2 style={styles.heading}>📝 Questions List</h2>
 
@@ -217,13 +171,14 @@ const QuestionBank = () => {
               <td style={styles.td}>{q.answer}</td>
               <td style={styles.td}>{q.m_marks}</td>
               <td style={styles.td}>
-                <button style={styles.deleteButton} onClick={() => setDeleteId(q.id)}>Delete</button>
+                <button type="button" style={styles.editButton} onClick={() => handleView(q.id)}>view</button>
+                <button type="button" style={styles.editButton} onClick={() => handleEdit(q.id)}>Edit</button>
+                <button type="button" style={styles.deleteButton} onClick={() => setDeleteId(q.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
 
       {deleteId && (
         <div style={styles.modalOverlay}>
