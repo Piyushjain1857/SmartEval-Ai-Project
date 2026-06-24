@@ -108,9 +108,19 @@ class Notification(NotificationBase):
 
 class QuestionBase(BaseModel):
     question_text: str
-    answer: int
+    answer: str
     m_marks: int
     question_no: int
+    created_by: Optional[str] = None
+
+class QuestionCreate(QuestionBase):
+    pass
+
+class QuestionUpdate(BaseModel):
+    question_text: Optional[str] = None
+    answer: Optional[str] = None
+    m_marks: Optional[int] = None
+    question_no: Optional[int] = None
 
 class QuestionResponse(QuestionBase):
     id: int

@@ -1,97 +1,33 @@
 from repository.question_repository import question_repository
-from repository.land_repository import land_repository
-from repository.crop_repository import crop_repository
-from repository.history_repository import history_repository
-from repository.notification_repository import notification_repository
 from fastapi import HTTPException
 
 class QuestionService:
-    def get_profile(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return user
+    def create_question(self, question_data: dict, current_user: dict = None):
+        if current_user:
+            created_by = current_user.get("sub") or current_user.get("username")
+            if created_by:
+                question_data['created_by'] = created_by
+        return question_repository.create_question(question_data)
 
-    def update_profile(self, username: str, profile_data: dict):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return question_repository.update_profile(user.id, profile_data)
+    def get_question(self, question_id: int):
+        question = question_repository.get_question(question_id)
+        if not question:
+            raise HTTPException(status_code=404, detail="Question not found")
+        return question
 
-    def add_land(self, username: str, land_data: dict):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        land_data['question_id'] = user.id
-        return land_repository.create_land(land_data)
+    def get_all_questions(self):
+        return question_repository.get_all_questions()
 
-    def get_lands(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return land_repository.get_lands_by_question(user.id)
+    def update_question(self, question_id: int, question_data: dict):
+        question = question_repository.update_question(question_id, question_data)
+        if not question:
+            raise HTTPException(status_code=404, detail="Question not found")
+        return question
 
-    def add_crop(self, username: str, crop_data: dict):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        crop_data['question_id'] = user.id
-        return crop_repository.create_crop(crop_data)
-
-    def get_crops(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return crop_repository.get_crops_by_question(user.id)
-
-    def add_history(self, username: str, history_data: dict):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        history_data['question_id'] = user.id
-        return history_repository.create_history(history_data)
-
-    def get_history(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return history_repository.get_history_by_question(user.id)
-
-    def get_notifications(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        return notification_repository.get_notifications_for_user(user.id)
-
-    def mark_notification_read(self, notification_id: int):
-        return notification_repository.mark_as_read(notification_id)
-
-    def get_dashboard_summary(self, username: str):
-        user = question_repository.get_user_by_username(username)
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        lands = land_repository.get_lands_by_question(user.id)
-        crops = crop_repository.get_crops_by_question(user.id)
-        notifications = notification_repository.get_notifications_for_user(user.id)
-        
-        total_land_area = sum(float(l.area_size or 0) for l in lands)
-        active_crops_count = len(crops)
-        unread_notifications_count = len([n for n in notifications if not n.is_read])
-        
-        return {
-            "question_name": user.full_name,
-            "total_lands": len(lands),
-            "total_area": round(total_land_area, 2),
-            "active_crops": active_crops_count,
-            "unread_notifications": unread_notifications_count,
-            "recent_notifications": notifications[:3],
-            "weather": {
-                "temp": 28,
-                "condition": "Sunny",
-                "humidity": 45,
-                "wind_speed": 12
-            }
-        }
+    def delete_question(self, question_id: int):
+        success = question_repository.delete_question(question_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Question not found")
+        return {"message": "Question deleted successfully"}
 
 question_service = QuestionService()
