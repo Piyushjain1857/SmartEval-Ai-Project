@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { Leaf, Mail, Lock, ShieldCheck, ArrowLeft } from 'lucide-react';
 
 
-const ForgotPassword = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+const ForgotPassword = () => {    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({ username: '', new_password: '', confirm_password: '' });
     const [error, setError] = useState('');
@@ -18,7 +15,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         // In a real app, we would verify the username here
         if (formData.username.trim() === '') {
-            setError(t('Please enter your username'));
+            setError('Please enter your username');
             return;
         }
         setStep(2);
@@ -29,7 +26,7 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         if (formData.new_password !== formData.confirm_password) {
-            setError(t('Passwords do not match'));
+            setError('Passwords do not match');
             return;
         }
 
@@ -42,12 +39,12 @@ const ForgotPassword = () => {
                 new_password: formData.new_password
             });
 
-            setSuccess(t('Password reset successful! Redirecting to login...'));
+            setSuccess('Password reset successful! Redirecting to login...');
             setTimeout(() => {
                 navigate('/login');
             }, 2000);
         } catch (err) {
-            setError(err.response?.data?.detail || t('Failed to reset password. Please check username.'));
+            setError(err.response?.data?.detail || 'Failed to reset password. Please check username.');
         } finally {
             setLoading(false);
         }
@@ -66,9 +63,9 @@ const ForgotPassword = () => {
                 </div>
 
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                    <h2>{step === 1 ? t('Reset Password') : t('New Password')}</h2>
+                    <h2>{step === 1 ? 'Reset Password' : 'New Password'}</h2>
                     <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                        {step === 1 ? t('Enter your registered username/mobile') : t('Create a secure new password')}
+                        {step === 1 ? 'Enter your registered username/mobile' : 'Create a secure new password'}
                     </p>
                 </div>
 
@@ -81,7 +78,7 @@ const ForgotPassword = () => {
                             <Mail className="field-icon" size={20} />
                             <input
                                 type="text"
-                                placeholder={t('Username / Mobile')}
+                                placeholder={'Username / Mobile'}
                                 value={formData.username}
                                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                                 required
@@ -89,7 +86,7 @@ const ForgotPassword = () => {
                         </div>
 
                         <button type="submit" className="login-btn">
-                            {t('Verify User')}
+                            {'Verify User'}
                         </button>
                     </form>
                 ) : (
@@ -98,7 +95,7 @@ const ForgotPassword = () => {
                             <Lock className="field-icon" size={20} />
                             <input
                                 type="password"
-                                placeholder={t('New Password')}
+                                placeholder={'New Password'}
                                 value={formData.new_password}
                                 onChange={(e) => setFormData({ ...formData, new_password: e.target.value })}
                                 required
@@ -109,7 +106,7 @@ const ForgotPassword = () => {
                             <ShieldCheck className="field-icon" size={20} />
                             <input
                                 type="password"
-                                placeholder={t('Confirm Password')}
+                                placeholder={'Confirm Password'}
                                 value={formData.confirm_password}
                                 onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
                                 required
@@ -117,14 +114,14 @@ const ForgotPassword = () => {
                         </div>
 
                         <button type="submit" className={`login-btn ${loading ? 'loading' : ''}`} disabled={loading}>
-                            {loading ? t('Resetting...') : t('Reset Password')}
+                            {loading ? 'Resetting...' : 'Reset Password'}
                         </button>
                     </form>
                 )}
 
                 <div className="form-footer-center" style={{ marginTop: '1.5rem' }}>
                     <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', cursor: 'pointer' }} onClick={() => navigate('/login')}>
-                        <ArrowLeft size={16} /> {t('Back to Login')}
+                        <ArrowLeft size={16} /> {'Back to Login'}
                     </p>
                 </div>
             </div>

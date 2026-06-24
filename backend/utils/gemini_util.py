@@ -24,7 +24,6 @@ class GeminiService:
         location: str, 
         weather_data: dict, 
         history: List[dict],
-        language: str = "en",
         message: Optional[str] = None
     ):
         if not self.model:
@@ -33,11 +32,6 @@ class GeminiService:
         # Prepare context strings
         history_str = json.dumps(history, indent=2) if history else "No previous history found."
         weather_str = json.dumps(weather_data, indent=2) if weather_data else "Weather data unavailable."
-        
-        # Determine language priority
-        lang_instruction = f"Respond in {language}."
-        if message:
-            lang_instruction = "Identify the language of the farmer's question and respond in that same language (Hindi or English)."
 
         farmer_query = f"Farmer's Question: {message}" if message else "Task: General health check based on images."
 
@@ -75,9 +69,6 @@ class GeminiService:
             "preventive_care": "..."
           }}
         }}
-        
-        LANGUAGE: {lang_instruction}
-        Keep JSON keys in English. All text values MUST be in the detected/requested language.
         """
 
         # Prepare contents for Gemini

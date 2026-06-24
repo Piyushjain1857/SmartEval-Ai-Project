@@ -1,220 +1,217 @@
 import React, { useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
-    Send,
-    Image as ImageIcon,
-    TrendingUp,
-    AlertTriangle,
-    ShieldCheck,
-    Zap,
-    Droplet,
-    Sunrise,
-    X
+  Send,
+  Image as ImageIcon,
+  TrendingUp,
+  AlertTriangle,
+  ShieldCheck,
+  Zap,
+  Droplet,
+  Sunrise,
+  X
 } from 'lucide-react';
 
 const FarmerChatbot = () => {
-    const { t, i18n } = useTranslation();
-    const [images, setImages] = useState([]);
-    const [cropType, setCropType] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState(null);
-    const [error, setError] = useState('');
-    const fileInputRef = useRef(null);
+  const [images, setImages] = useState([]);
+  const [cropType, setCropType] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const fileInputRef = useRef(null);
 
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages(prev => [...prev, ...files]);
-    };
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(prev => [...prev, ...files]);
+  };
 
-    const removeImage = (index) => {
-        setImages(prev => prev.filter((_, i) => i !== index));
-    };
+  const removeImage = (index) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (images.length === 0 || !cropType) {
-            setError('Please provide at least one image and crop type.');
-            return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (images.length === 0 || !cropType) {
+      setError('Please provide at least one image and crop type.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    const formData = new FormData();
+    images.forEach(img => formData.append('images', img));
+    formData.append('crop_type', cropType);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://localhost:8000/chat/analyze', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
         }
+      });
+      setResult(response.data);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to analyze images. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setLoading(true);
-        setError('');
-        setResult(null);
+  return (
+    <div className="chatbot-container">
+      <div className="chatbot-header">
+        <Zap className="header-icon" />
+        <h1>{'chatbot'}</h1>
+        <p>Your personal AI Agronomist</p>
+      </div>
 
-        const formData = new FormData();
-        images.forEach(img => formData.append('images', img));
-        formData.append('crop_type', cropType);
-        formData.append('language', i18n.language === 'en' ? 'English' : 'Hindi');
-
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8000/chat/analyze', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            setResult(response.data);
-        } catch (err) {
-            setError(err.response?.data?.detail || 'Failed to analyze images. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className="chatbot-container">
-            <div className="chatbot-header">
-                <Zap className="header-icon" />
-                <h1>{t('chatbot')}</h1>
-                <p>Your personal AI Agronomist</p>
+      <div className="chatbot-layout">
+        <div className="chat-input-section card">
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label>{'crop_type'}</label>
+              <input
+                type="text"
+                value={cropType}
+                onChange={(e) => setCropType(e.target.value)}
+                placeholder="e.g. Tomato, Rice, Wheat..."
+                required
+              />
             </div>
 
-            <div className="chatbot-layout">
-                <div className="chat-input-section card">
-                    <form onSubmit={handleSubmit}>
-                        <div className="input-group">
-                            <label>{t('crop_type')}</label>
-                            <input
-                                type="text"
-                                value={cropType}
-                                onChange={(e) => setCropType(e.target.value)}
-                                placeholder="e.g. Tomato, Rice, Wheat..."
-                                required
-                            />
-                        </div>
+            <div className="image-upload-section">
+              <label>{'upload_leaf'}</label>
+              <div
+                className="upload-dropzone"
+                onClick={() => fileInputRef.current.click()}
+              >
+                <ImageIcon className="upload-icon" />
+                <p>{'select_files'}</p>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+              </div>
 
-                        <div className="image-upload-section">
-                            <label>{t('upload_leaf')}</label>
-                            <div
-                                className="upload-dropzone"
-                                onClick={() => fileInputRef.current.click()}
-                            >
-                                <ImageIcon className="upload-icon" />
-                                <p>{t('select_files')}</p>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    ref={fileInputRef}
-                                    onChange={handleImageChange}
-                                    style={{ display: 'none' }}
-                                />
-                            </div>
-
-                            {images.length > 0 && (
-                                <div className="image-preview-grid">
-                                    {images.map((img, index) => (
-                                        <div key={index} className="preview-item">
-                                            <img src={URL.createObjectURL(img)} alt="preview" />
-                                            <button type="button" onClick={() => removeImage(index)} className="remove-btn">
-                                                <X />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            className={`analyze-btn ${loading ? 'loading' : ''}`}
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <><span className="spinner"></span> {t('analyzing')}</>
-                            ) : (
-                                <><Send /> {t('analyze')}</>
-                            )}
-                        </button>
-                        {error && <p className="error-text">{error}</p>}
-                    </form>
+              {images.length > 0 && (
+                <div className="image-preview-grid">
+                  {images.map((img, index) => (
+                    <div key={index} className="preview-item">
+                      <img src={URL.createObjectURL(img)} alt="preview" />
+                      <button type="button" onClick={() => removeImage(index)} className="remove-btn">
+                        <X />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-
-                <div className="chat-result-section">
-                    {!result && !loading && (
-                        <div className="empty-state pulse">
-                            <Sunrise className="empty-icon" />
-                            <h3>{t('ask_question')}</h3>
-                            <p>Upload a photo of your crop's leaf to get started.</p>
-                        </div>
-                    )}
-
-                    {loading && (
-                        <div className="loading-state">
-                            <div className="dna-loader"></div>
-                            <h3>Analyzing your crop...</h3>
-                            <p>Our AI is examining the leaves for diseases.</p>
-                        </div>
-                    )}
-
-                    {result && (
-                        <div className="analysis-result fade-in">
-                            <div className="result-header">
-                                <div className="diagnosis-badge">
-                                    <AlertTriangle /> {result.diagnosis}
-                                </div>
-                                <div className="confidence-score">
-                                    Confidence: {(result.confidence_score * 100).toFixed(0)}%
-                                </div>
-                            </div>
-
-                            <div className="stats-cards">
-                                <div className={`stat-card ${result.severity.toLowerCase()}`}>
-                                    <TrendingUp />
-                                    <span>{t('severity')}</span>
-                                    <strong>{result.severity}</strong>
-                                </div>
-                                <div className={`stat-card ${result.spread_risk.toLowerCase()}`}>
-                                    <Zap />
-                                    <span>{t('spread_risk')}</span>
-                                    <strong>{result.spread_risk}</strong>
-                                </div>
-                            </div>
-
-                            <div className="reasoning-card card">
-                                <h3><ShieldCheck /> {t('diagnosis')} Details</h3>
-                                <p>{result.reasoning}</p>
-                                <div className="disease-tags">
-                                    {result.diseases.map((d, i) => (
-                                        <span key={i} className="disease-tag">{d}</span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="advisory-section">
-                                <h3><Droplet /> {t('advisory')}</h3>
-                                <div className="advisory-grid">
-                                    <div className="advisory-card chemical">
-                                        <h4>{t('chemical')}</h4>
-                                        <p><strong>{result.advisory.chemical_solution.name}</strong></p>
-                                        <small>{t('dosage')}: {result.advisory.chemical_solution.dosage}</small>
-                                    </div>
-                                    <div className="advisory-card bio">
-                                        <h4>{t('bio_organic')}</h4>
-                                        <p>{result.advisory.bio_organic_solution}</p>
-                                    </div>
-                                    <div className="advisory-card organic">
-                                        <h4>{t('organic')}</h4>
-                                        <p>{result.advisory.organic_treatment}</p>
-                                    </div>
-                                    <div className="advisory-card fertilizer">
-                                        <h4>{t('fertilizer')}</h4>
-                                        <p>{result.advisory.fertilizer_support}</p>
-                                    </div>
-                                    <div className="advisory-card preventive">
-                                        <h4>{t('preventive')}</h4>
-                                        <p>{result.advisory.preventive_care}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
+              )}
             </div>
 
-            <style jsx="true">{`
+            <button
+              type="submit"
+              className={`analyze-btn ${loading ? 'loading' : ''}`}
+              disabled={loading}
+            >
+              {loading ? (
+                <><span className="spinner"></span> {'analyzing'}</>
+              ) : (
+                <><Send /> {'analyze'}</>
+              )}
+            </button>
+            {error && <p className="error-text">{error}</p>}
+          </form>
+        </div>
+
+        <div className="chat-result-section">
+          {!result && !loading && (
+            <div className="empty-state pulse">
+              <Sunrise className="empty-icon" />
+              <h3>{'ask_question'}</h3>
+              <p>Upload a photo of your crop's leaf to get started.</p>
+            </div>
+          )}
+
+          {loading && (
+            <div className="loading-state">
+              <div className="dna-loader"></div>
+              <h3>Analyzing your crop...</h3>
+              <p>Our AI is examining the leaves for diseases.</p>
+            </div>
+          )}
+
+          {result && (
+            <div className="analysis-result fade-in">
+              <div className="result-header">
+                <div className="diagnosis-badge">
+                  <AlertTriangle /> {result.diagnosis}
+                </div>
+                <div className="confidence-score">
+                  Confidence: {(result.confidence_score * 100).toFixed(0)}%
+                </div>
+              </div>
+
+              <div className="stats-cards">
+                <div className={`stat-card ${result.severity.toLowerCase()}`}>
+                  <TrendingUp />
+                  <span>{'severity'}</span>
+                  <strong>{result.severity}</strong>
+                </div>
+                <div className={`stat-card ${result.spread_risk.toLowerCase()}`}>
+                  <Zap />
+                  <span>{'spread_risk'}</span>
+                  <strong>{result.spread_risk}</strong>
+                </div>
+              </div>
+
+              <div className="reasoning-card card">
+                <h3><ShieldCheck /> {'diagnosis'} Details</h3>
+                <p>{result.reasoning}</p>
+                <div className="disease-tags">
+                  {result.diseases.map((d, i) => (
+                    <span key={i} className="disease-tag">{d}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="advisory-section">
+                <h3><Droplet /> {'advisory'}</h3>
+                <div className="advisory-grid">
+                  <div className="advisory-card chemical">
+                    <h4>{'chemical'}</h4>
+                    <p><strong>{result.advisory.chemical_solution.name}</strong></p>
+                    <small>{'dosage'}: {result.advisory.chemical_solution.dosage}</small>
+                  </div>
+                  <div className="advisory-card bio">
+                    <h4>{'bio_organic'}</h4>
+                    <p>{result.advisory.bio_organic_solution}</p>
+                  </div>
+                  <div className="advisory-card organic">
+                    <h4>{'organic'}</h4>
+                    <p>{result.advisory.organic_treatment}</p>
+                  </div>
+                  <div className="advisory-card fertilizer">
+                    <h4>{'fertilizer'}</h4>
+                    <p>{result.advisory.fertilizer_support}</p>
+                  </div>
+                  <div className="advisory-card preventive">
+                    <h4>{'preventive'}</h4>
+                    <p>{result.advisory.preventive_care}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <style jsx="true">{`
         .chatbot-container {
           padding: 2rem;
           max-width: 1200px;
@@ -527,8 +524,8 @@ const FarmerChatbot = () => {
           animation: spin 0.8s linear infinite;
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default FarmerChatbot;

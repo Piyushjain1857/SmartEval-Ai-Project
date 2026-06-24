@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 import { Bell, CheckCircle, Calendar, MapPin, Tag } from 'lucide-react';
 
-const Notifications = () => {
-    const { t } = useTranslation();
-    const [notifications, setNotifications] = useState([]);
+const Notifications = () => {    const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const API_URL = 'http://localhost:8000/farmer/notifications';
@@ -45,7 +42,7 @@ const Notifications = () => {
     return (
         <div className="container">
             <div className="header">
-                <h1>{t('notifications') || 'Alerts & Notifications'}</h1>
+                <h1>{'Alerts & Notifications'}</h1>
                 <p className="subtitle">Important agricultural alerts based on your location and crops.</p>
             </div>
 

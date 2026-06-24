@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { STATES_AND_CITIES } from '../utils/constants';
 
-const FarmerProfile = () => {
-    const { t } = useTranslation();
-    const [profile, setProfile] = useState({
+const FarmerProfile = () => {    const [profile, setProfile] = useState({
         full_name: '',
         location: '',
         state: '',
@@ -60,48 +57,48 @@ const FarmerProfile = () => {
 
     return (
         <div className="card">
-            <h2 style={{ marginBottom: '1.5rem' }}>{t('personal_details')}</h2>
+            <h2 style={{ marginBottom: '1.5rem' }}>{'personal_details'}</h2>
             {message && <div style={{ color: message.includes('success') ? 'green' : 'red', marginBottom: '10px' }}>{message}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="form-grid">
                     <div className="form-group">
-                        <label>{t('full_name')} <span style={{ color: 'red' }}>*</span></label>
+                        <label>{'full_name'} <span style={{ color: 'red' }}>*</span></label>
                         <input type="text" name="full_name" value={profile.full_name || ''} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label>{t('mobile')} <span style={{ color: 'red' }}>*</span></label>
+                        <label>{'mobile'} <span style={{ color: 'red' }}>*</span></label>
                         <input type="text" name="mobile" value={profile.mobile || ''} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label>{t('state')}</label>
+                        <label>{'state'}</label>
                         <select name="state" value={profile.state || ''} onChange={(e) => {
                             setProfile({ ...profile, state: e.target.value, city: '' });
                         }}>
-                            <option value="">{t('select_state') || 'Select State'}</option>
+                            <option value="">{'Select State'}</option>
                             {states.map(s => (
                                 <option key={s} value={s}>{s}</option>
                             ))}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>{t('city')}</label>
+                        <label>{'city'}</label>
                         <select name="city" value={profile.city || ''} onChange={handleChange} disabled={!profile.state}>
-                            <option value="">{t('select_city') || 'Select City'}</option>
+                            <option value="">{'Select City'}</option>
                             {cities.map(c => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>{t('location')}</label>
+                        <label>{'location'}</label>
                         <input type="text" name="location" value={profile.location || ''} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label>{t('photo')}</label>
+                        <label>{'photo'}</label>
                         <input type="text" name="photo_url" placeholder="Photo URL" value={profile.photo_url || ''} onChange={handleChange} />
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">{t('save')}</button>
+                <button type="submit" className="btn btn-primary">{'save'}</button>
             </form>
         </div>
     );

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   MessageCircle,
@@ -15,9 +14,7 @@ import {
   VolumeX
 } from 'lucide-react';
 
-const ChatFloatingWidget = () => {
-  const { t, i18n } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
+const ChatFloatingWidget = () => {  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { role: 'bot', text: 'Hello! I am your AI Agro Assistant. How can I help with your crops today?', type: 'text' }
   ]);
@@ -63,12 +60,7 @@ const ChatFloatingWidget = () => {
     }
   }, []);
 
-  // Update recognition language when i18n language changes
-  useEffect(() => {
-    if (recognitionRef.current) {
-      recognitionRef.current.lang = i18n.language === 'hi' ? 'hi-IN' : 'en-US';
-    }
-  }, [i18n.language]);
+  // Language logic removed
 
   const toggleListening = () => {
     if (isListening) {
@@ -136,7 +128,7 @@ const ChatFloatingWidget = () => {
     currentImages.forEach(img => formData.append('images', img));
     formData.append('message', currentInput);
     formData.append('crop_type', 'Detect Automatically');
-    formData.append('language', i18n.language === 'en' ? 'English' : 'Hindi');
+
 
     try {
       const token = localStorage.getItem('token');
@@ -161,13 +153,16 @@ const ChatFloatingWidget = () => {
           const reasoning = response.data.reasoning || "";
           const advisory = response.data.advisory?.chemical_solution?.name || "";
           const speechText = `${diagnosis}. ${reasoning}. ${advisory}`;
-          speak(speechText, i18n.language === 'en' ? 'English' : 'Hindi');
+          if (speechText) {
+            speak(speechText, 'English');
+          }
         } else if (response.data.text) {
-          speak(response.data.text, i18n.language === 'en' ? 'English' : 'Hindi');
+          speak(response.data.text, 'English');
         }
       }
 
-    } catch (err) {
+    } catch {
+      speak("Sorry, I encountered an error connecting to the server.", 'English');
       setMessages(prev => [...prev, {
         role: 'bot',
         text: 'Sorry, I encountered an error. Please try again.',
@@ -298,7 +293,7 @@ const ChatFloatingWidget = () => {
             </button>
             <input
               type="text"
-              placeholder={isListening ? (i18n.language === 'hi' ? "सुन रहा हूँ..." : "Listening...") : (i18n.language === 'hi' ? "हिंदी में सवाल पूछें..." : "Ask your question...")}
+              placeholder={isListening ? "Listening..." : "Ask your question..."}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className={isListening ? 'input-listening' : ''}

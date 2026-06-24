@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   MessageSquare,
@@ -12,7 +11,6 @@ import {
 } from 'lucide-react';
 
 const DiscussionHistory = () => {
-  const { t } = useTranslation();
   const [discussions, setDiscussions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -49,7 +47,7 @@ const DiscussionHistory = () => {
   const parseAnswer = (answerStr) => {
     try {
       return JSON.parse(answerStr);
-    } catch (e) {
+    } catch {
       return { reasoning: answerStr };
     }
   };
@@ -68,7 +66,7 @@ const DiscussionHistory = () => {
   return (
     <div className="discovery-container">
       <div className="discovery-header">
-        <h1>{t('discussions')}</h1>
+        <h1>{'discussions'}</h1>
         <p>Review your previous conversations with AI Agro Assistant</p>
       </div>
 
@@ -133,7 +131,7 @@ const DiscussionHistory = () => {
                               if (!val) return null;
                               return (
                                 <div key={key} className="advisory-item">
-                                  <strong>{t(key.replace('_solution', '').replace('_treatment', ''))}:</strong>
+                                  <strong>{key.replace('_solution', '').replace('_treatment', '')}:</strong>
                                   <span>{typeof val === 'string' ? val : `${val.name} (${val.dosage})`}</span>
                                 </div>
                               );

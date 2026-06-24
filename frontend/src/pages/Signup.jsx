@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { Leaf, User, Lock, ArrowRight } from 'lucide-react';
 
 
-const Signup = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+const Signup = () => {    const navigate = useNavigate();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -46,7 +43,7 @@ const Signup = () => {
                         <User className="field-icon" size={20} />
                         <input
                             type="text"
-                            placeholder={t('username') || "Username"}
+                            placeholder={"Username"}
                             value={formData.username}
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                             required
@@ -57,7 +54,7 @@ const Signup = () => {
                         <Lock className="field-icon" size={20} />
                         <input
                             type="password"
-                            placeholder={t('password') || "Password"}
+                            placeholder={"Password"}
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             required

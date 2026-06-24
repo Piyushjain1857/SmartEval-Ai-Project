@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { Leaf, Mail, Lock, Check } from 'lucide-react';
 
 
 const Login = () => {
-    const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const [formData, setFormData] = useState({ username: '', password: '' });
@@ -54,7 +52,7 @@ const Login = () => {
                         <Mail className="field-icon" size={20} />
                         <input
                             type="text"
-                            placeholder={t('username') || "Username"}
+                            placeholder={"Username"}
                             value={formData.username}
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                             required
@@ -65,7 +63,7 @@ const Login = () => {
                         <Lock className="field-icon" size={20} />
                         <input
                             type="password"
-                            placeholder={t('password') || "Password"}
+                            placeholder={"Password"}
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             required
@@ -78,19 +76,19 @@ const Login = () => {
                             <span className="checkmark">
                                 <Check size={12} />
                             </span>
-                            {t('Remember me') || "Remember me"}
+                            {"Remember me"}
                         </label>
-                        <a href="#" className="forgot-pass" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }}>{t('Forgot Password') || "Forgot Password?"}</a>
+                        <a href="#" className="forgot-pass" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }}>{"Forgot Password?"}</a>
                     </div>
 
                     <button type="submit" className={`login-btn ${loading ? 'loading' : ''}`} disabled={loading}>
-                        {loading ? 'Logging In...' : t('Login') || 'Login'}
+                        {loading ? 'Logging In...' : 'Login'}
                     </button>
 
 
                     <div className="form-footer-center">
                         <p>
-                            {t("Don't have an account?")} <span onClick={() => navigate('/signup')}>{t("Sign up")}</span>
+                            {"Don't have an account?"} <span onClick={() => navigate('/signup')}>{'Sign up'}</span>
                         </p>
                     </div>
                 </form>

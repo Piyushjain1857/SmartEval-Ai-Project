@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
-const CropDetails = () => {
-    const { t } = useTranslation();
-    const [crops, setCrops] = useState([]);
+const CropDetails = () => {    const [crops, setCrops] = useState([]);
     const [lands, setLands] = useState([]);
     const [newCrop, setNewCrop] = useState({ land_id: '', crop_name: '', variety: '', planted_date: '' });
     const [loading, setLoading] = useState(true);
@@ -53,42 +50,42 @@ const CropDetails = () => {
     return (
         <div>
             <div className="card" style={{ marginBottom: '20px' }}>
-                <h2 style={{ marginBottom: '1.5rem' }}>{t('crop_details')}</h2>
+                <h2 style={{ marginBottom: '1.5rem' }}>{'crop_details'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>{t('land_details')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'land_details'} <span style={{ color: 'red' }}>*</span></label>
                             <select name="land_id" value={newCrop.land_id} onChange={handleChange} required>
                                 <option value="">Select Field</option>
                                 {lands.map(l => <option key={l.id} value={l.id}>{l.land_name}</option>)}
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>{t('crop_name')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'crop_name'} <span style={{ color: 'red' }}>*</span></label>
                             <input type="text" name="crop_name" value={newCrop.crop_name} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
-                            <label>{t('variety')}</label>
+                            <label>{'variety'}</label>
                             <input type="text" name="variety" value={newCrop.variety} onChange={handleChange} />
                         </div>
                         <div className="form-group">
-                            <label>{t('planted_date')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'planted_date'} <span style={{ color: 'red' }}>*</span></label>
                             <input type="date" name="planted_date" value={newCrop.planted_date} onChange={handleChange} required />
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">{t('submit')}</button>
+                    <button type="submit" className="btn btn-primary">{'submit'}</button>
                 </form>
             </div>
 
             <div className="card">
-                <h2 style={{ marginBottom: '1.5rem' }}>{t('crop_details')}</h2>
+                <h2 style={{ marginBottom: '1.5rem' }}>{'crop_details'}</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>{t('crop_name')}</th>
-                            <th>{t('variety')}</th>
-                            <th>{t('planted_date')}</th>
-                            <th>{t('land_name')}</th>
+                            <th>{'crop_name'}</th>
+                            <th>{'variety'}</th>
+                            <th>{'planted_date'}</th>
+                            <th>{'land_name'}</th>
                         </tr>
                     </thead>
                     <tbody>

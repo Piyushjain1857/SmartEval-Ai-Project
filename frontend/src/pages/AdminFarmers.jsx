@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
     Edit,
@@ -12,9 +11,7 @@ import {
 } from 'lucide-react';
 import { STATES_AND_CITIES } from '../utils/constants';
 
-const AdminFarmers = () => {
-    const { t } = useTranslation();
-    const [farmers, setFarmers] = useState([]);
+const AdminFarmers = () => {    const [farmers, setFarmers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         full_name: '',
@@ -128,7 +125,7 @@ const AdminFarmers = () => {
     return (
         <div className="admin-container">
             <div className="admin-header">
-                <h1>{t('farmers_list')}</h1>
+                <h1>{'farmers_list'}</h1>
                 <button className="btn-primary" onClick={openAddModal} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <UserPlus size={20} />
                 </button>
@@ -138,58 +135,58 @@ const AdminFarmers = () => {
             <form className="search-box glass" onSubmit={handleSearch}>
                 <div className="search-grid">
                     <div className="form-group">
-                        <label>{t('full_name')}</label>
+                        <label>{'full_name'}</label>
                         <input
                             name="full_name"
                             value={filters.full_name}
                             onChange={handleFilterChange}
-                            placeholder={t('full_name')}
+                            placeholder={'full_name'}
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('mobile')}</label>
+                        <label>{'mobile'}</label>
                         <input
                             name="mobile"
                             value={filters.mobile}
                             onChange={handleFilterChange}
-                            placeholder={t('mobile')}
+                            placeholder={'mobile'}
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('email')}</label>
+                        <label>{'email'}</label>
                         <input
                             name="email"
                             value={filters.email}
                             onChange={handleFilterChange}
-                            placeholder={t('email')}
+                            placeholder={'email'}
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('state')}</label>
+                        <label>{'state'}</label>
                         <select
                             name="state"
                             value={filters.state}
                             onChange={(e) => setFilters({ ...filters, state: e.target.value, city: '' })}
                         >
-                            <option value="">{t('all') || 'All States'}</option>
+                            <option value="">{'All States'}</option>
                             {states.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>{t('city')}</label>
+                        <label>{'city'}</label>
                         <select
                             name="city"
                             value={filters.city}
                             onChange={handleFilterChange}
                             disabled={!filters.state}
                         >
-                            <option value="">{t('all') || 'All Cities'}</option>
+                            <option value="">{'All Cities'}</option>
                             {filterCities.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
                 </div>
                 <button type="submit" className="btn-search">
-                    <Search size={18} /> {t('search')}
+                    <Search size={18} /> {'search'}
                 </button>
             </form>
 
@@ -198,12 +195,12 @@ const AdminFarmers = () => {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>{t('full_name')}</th>
-                            <th>{t('username')}</th>
-                            <th>{t('mobile')}</th>
-                            <th>{t('city')}, {t('state')}</th>
-                            <th>{t('status')}</th>
-                            <th>{t('actions')}</th>
+                            <th>{'full_name'}</th>
+                            <th>{'username'}</th>
+                            <th>{'mobile'}</th>
+                            <th>{'city'}, {'state'}</th>
+                            <th>{'status'}</th>
+                            <th>{'actions'}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -220,19 +217,19 @@ const AdminFarmers = () => {
                                     <td>{farmer.city || '-'}, {farmer.state || '-'}</td>
                                     <td>
                                         <span className={`status-badge ${farmer.is_active ? 'active' : 'blocked'}`}>
-                                            {farmer.is_active ? t('active') : t('blocked')}
+                                            {farmer.is_active ? 'active' : 'blocked'}
                                         </span>
                                     </td>
                                     <td className="actions-cell">
-                                        <button className="icon-btn view" title={t('view')} onClick={() => setViewFarmer(farmer)}>
+                                        <button className="icon-btn view" title={'view'} onClick={() => setViewFarmer(farmer)}>
                                             <Eye size={18} />
                                         </button>
-                                        <button className="icon-btn edit" title={t('edit')} onClick={() => openEditModal(farmer)}>
+                                        <button className="icon-btn edit" title={'edit'} onClick={() => openEditModal(farmer)}>
                                             <Edit size={18} />
                                         </button>
                                         <button
                                             className={`icon-btn status ${farmer.is_active ? 'block' : 'unblock'}`}
-                                            title={farmer.is_active ? t('block') : t('unblock')}
+                                            title={farmer.is_active ? 'block' : 'unblock'}
                                             onClick={() => handleStatusToggle(farmer.id, farmer.is_active)}
                                         >
                                             {farmer.is_active ? <UserMinus size={18} /> : <UserCheck size={18} />}
@@ -249,11 +246,11 @@ const AdminFarmers = () => {
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content glass">
-                        <h2>{editFarmer ? t('edit') + ' ' : ''}{t('farmer')}</h2>
+                        <h2>{editFarmer ? 'edit' + ' ' : ''}{'farmer'}</h2>
                         <form onSubmit={handleFormSubmit}>
                             <div className="form-grid" style={{ marginTop: '1.5rem' }}>
                                 <div className="form-group">
-                                    <label>{t('username')} <span className="required">*</span></label>
+                                    <label>{'username'} <span className="required">*</span></label>
                                     <input
                                         required
                                         disabled={!!editFarmer}
@@ -263,7 +260,7 @@ const AdminFarmers = () => {
                                 </div>
                                 {!editFarmer && (
                                     <div className="form-group">
-                                        <label>{t('password')} <span className="required">*</span></label>
+                                        <label>{'password'} <span className="required">*</span></label>
                                         <input
                                             type="password"
                                             required
@@ -273,7 +270,7 @@ const AdminFarmers = () => {
                                     </div>
                                 )}
                                 <div className="form-group">
-                                    <label>{t('full_name')} <span className="required">*</span></label>
+                                    <label>{'full_name'} <span className="required">*</span></label>
                                     <input
                                         required
                                         value={formData.full_name}
@@ -281,37 +278,37 @@ const AdminFarmers = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>{t('mobile')}</label>
+                                    <label>{'mobile'}</label>
                                     <input
                                         value={formData.mobile}
                                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>{t('state')}</label>
+                                    <label>{'state'}</label>
                                     <select
                                         value={formData.state}
                                         onChange={(e) => setFormData({ ...formData, state: e.target.value, city: '' })}
                                     >
-                                        <option value="">{t('select_state') || 'Select State'}</option>
+                                        <option value="">{'Select State'}</option>
                                         {states.map(s => <option key={s} value={s}>{s}</option>)}
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label>{t('city')}</label>
+                                    <label>{'city'}</label>
                                     <select
                                         value={formData.city}
                                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                                         disabled={!formData.state}
                                     >
-                                        <option value="">{t('select_city') || 'Select City'}</option>
+                                        <option value="">{'Select City'}</option>
                                         {modalCities.map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>
                             </div>
                             <div className="modal-actions">
-                                <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>{t('cancel') || 'Cancel'}</button>
-                                <button type="submit" className="btn-primary">{t('save')}</button>
+                                <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>{'Cancel'}</button>
+                                <button type="submit" className="btn-primary">{'save'}</button>
                             </div>
                         </form>
                     </div>
@@ -323,32 +320,32 @@ const AdminFarmers = () => {
                 <div className="modal-overlay">
                     <div className="modal-content glass detail-modal">
                         <div className="modal-header">
-                            <h2>{t('personal_details')}</h2>
+                            <h2>{'personal_details'}</h2>
                             <button className="close-btn" onClick={() => setViewFarmer(null)}><X size={24} /></button>
                         </div>
                         <div className="details-grid">
                             <div className="detail-item">
-                                <label>{t('full_name')}:</label>
+                                <label>{'full_name'}:</label>
                                 <span>{viewFarmer.full_name || '-'}</span>
                             </div>
                             <div className="detail-item">
-                                <label>{t('username')}:</label>
+                                <label>{'username'}:</label>
                                 <span>{viewFarmer.username}</span>
                             </div>
                             <div className="detail-item">
-                                <label>{t('mobile')}:</label>
+                                <label>{'mobile'}:</label>
                                 <span>{viewFarmer.mobile || '-'}</span>
                             </div>
                             <div className="detail-item">
-                                <label>{t('city')}:</label>
+                                <label>{'city'}:</label>
                                 <span>{viewFarmer.city || '-'}</span>
                             </div>
                             <div className="detail-item">
-                                <label>{t('state')}:</label>
+                                <label>{'state'}:</label>
                                 <span>{viewFarmer.state || '-'}</span>
                             </div>
                             <div className="detail-item full-width">
-                                <label>{t('location')}:</label>
+                                <label>{'location'}:</label>
                                 <span>{viewFarmer.location || '-'}</span>
                             </div>
                         </div>

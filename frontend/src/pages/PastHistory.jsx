@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
-const PastHistory = () => {
-    const { t } = useTranslation();
-    const [history, setHistory] = useState([]);
+const PastHistory = () => {    const [history, setHistory] = useState([]);
     const [lands, setLands] = useState([]);
     const [newHistory, setNewHistory] = useState({ land_id: '', crop: '', year: new Date().getFullYear(), yield_amount: '', disease_record: '', treatment_record: '', notes: '' });
     const [loading, setLoading] = useState(true);
@@ -53,18 +50,18 @@ const PastHistory = () => {
     return (
         <div>
             <div className="card" style={{ marginBottom: '20px' }}>
-                <h2 style={{ marginBottom: '1.5rem' }}>{t('past_history')}</h2>
+                <h2 style={{ marginBottom: '1.5rem' }}>{'past_history'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <div className="form-group">
-                            <label>{t('land_details')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'land_details'} <span style={{ color: 'red' }}>*</span></label>
                             <select name="land_id" value={newHistory.land_id} onChange={handleChange} required>
                                 <option value="">Select Field</option>
                                 {lands.map(l => <option key={l.id} value={l.id}>{l.land_name}</option>)}
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>{t('crop_name')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'crop_name'} <span style={{ color: 'red' }}>*</span></label>
                             <input type="text" name="crop" value={newHistory.crop} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
@@ -72,36 +69,36 @@ const PastHistory = () => {
                             <input type="number" name="year" value={newHistory.year} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
-                            <label>{t('yield_amount')} <span style={{ color: 'red' }}>*</span></label>
+                            <label>{'yield_amount'} <span style={{ color: 'red' }}>*</span></label>
                             <input type="number" name="yield_amount" value={newHistory.yield_amount} onChange={handleChange} required />
                         </div>
                         <div className="form-group">
-                            <label>{t('disease_record')}</label>
+                            <label>{'disease_record'}</label>
                             <textarea name="disease_record" value={newHistory.disease_record} onChange={handleChange}></textarea>
                         </div>
                         <div className="form-group">
-                            <label>{t('treatment_record')}</label>
+                            <label>{'treatment_record'}</label>
                             <textarea name="treatment_record" value={newHistory.treatment_record} onChange={handleChange}></textarea>
                         </div>
                         <div className="form-group">
-                            <label>{t('notes')}</label>
+                            <label>{'notes'}</label>
                             <textarea name="notes" value={newHistory.notes} onChange={handleChange}></textarea>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">{t('submit')}</button>
+                    <button type="submit" className="btn btn-primary">{'submit'}</button>
                 </form>
             </div>
 
             <div className="card">
-                <h2 style={{ marginBottom: '1.5rem' }}>{t('past_history')}</h2>
+                <h2 style={{ marginBottom: '1.5rem' }}>{'past_history'}</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Year</th>
-                            <th>{t('crop_name')}</th>
-                            <th>{t('yield_amount')}</th>
-                            <th>{t('disease_record')}</th>
-                            <th>{t('treatment_record')}</th>
+                            <th>{'crop_name'}</th>
+                            <th>{'yield_amount'}</th>
+                            <th>{'disease_record'}</th>
+                            <th>{'treatment_record'}</th>
                         </tr>
                     </thead>
                     <tbody>

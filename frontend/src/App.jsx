@@ -17,9 +17,7 @@ import FarmerChatbot from './pages/FarmerChatbot';
 import DiscussionHistory from './pages/DiscussionHistory';
 import Notifications from './pages/Notifications';
 import ActionPlan from './pages/ActionPlan';
-
-
-import './config/i18n';
+import QuestionBank from './pages/Question_bank';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -51,6 +49,7 @@ function App() {
             <Route path="/discussions" element={<PrivateRoute><DiscussionHistory /></PrivateRoute>} />
             <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
             <Route path="/action-plan" element={<PrivateRoute><ActionPlan /></PrivateRoute>} />
+            <Route path="/question-bank" element={<QuestionBank />} />
 
             <Route path="/admin/farmers" element={<PrivateRoute><AdminFarmers /></PrivateRoute>} />
             <Route path="/admin/broadcast" element={<PrivateRoute><AdminBroadcast /></PrivateRoute>} />

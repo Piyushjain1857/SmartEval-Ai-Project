@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import {
     User,
     Map,
@@ -17,9 +16,7 @@ import {
 
 import useNavItems from '../hooks/useNavItems';
 
-const Sidebar = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+const Sidebar = () => {    const navigate = useNavigate();
     const location = useLocation();
     const [isAdminOpen, setIsAdminOpen] = useState(true);
     const role = localStorage.getItem('role');
@@ -35,7 +32,7 @@ const Sidebar = () => {
                             onClick={() => setIsAdminOpen(!isAdminOpen)}
                         >
                             <LayoutDashboard size={20} />
-                            <span>{t('admin_panel')}</span>
+                            <span>{'admin_panel'}</span>
                             {isAdminOpen ? <ChevronDown size={16} style={{ marginLeft: 'auto' }} /> : <ChevronRight size={16} style={{ marginLeft: 'auto' }} />}
                         </div>
                         {isAdminOpen && (

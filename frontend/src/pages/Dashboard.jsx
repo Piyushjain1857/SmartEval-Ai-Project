@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   CloudSun,
@@ -15,9 +14,7 @@ import {
 } from 'lucide-react';
 import { API_BASE_URL } from '../utils/constants';
 
-const Dashboard = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+const Dashboard = () => {  const navigate = useNavigate();
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +42,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div>
-          <h1>{t('dashboard_view.welcome')}, {summary?.farmer_name || 'Farmer'}! 👋</h1>
+          <h1>{'dashboard_view.welcome'}, {summary?.farmer_name || 'Farmer'}! 👋</h1>
         </div>
       </header>
 
@@ -57,7 +54,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-info">
             <h3>{summary?.total_lands || 0}</h3>
-            <p>{t('dashboard_view.total_lands')}</p>
+            <p>{'dashboard_view.total_lands'}</p>
           </div>
         </div>
         <div className="stat-card glass">
@@ -65,8 +62,8 @@ const Dashboard = () => {
             <Map size={24} />
           </div>
           <div className="stat-info">
-            <h3>{summary?.total_area || 0} {t('dashboard_view.acres')}</h3>
-            <p>{t('dashboard_view.total_area')}</p>
+            <h3>{summary?.total_area || 0} {'dashboard_view.acres'}</h3>
+            <p>{'dashboard_view.total_area'}</p>
           </div>
         </div>
         <div className="stat-card glass">
@@ -75,7 +72,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-info">
             <h3>{summary?.active_crops || 0}</h3>
-            <p>{t('dashboard_view.active_crops')}</p>
+            <p>{'dashboard_view.active_crops'}</p>
           </div>
         </div>
         <div className="stat-card glass">
@@ -84,7 +81,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-info">
             <h3>{summary?.unread_notifications || 0}</h3>
-            <p>{t('dashboard_view.new_alerts')}</p>
+            <p>{'dashboard_view.new_alerts'}</p>
           </div>
         </div>
       </div>
@@ -93,7 +90,7 @@ const Dashboard = () => {
         {/* Weather Card */}
         <section className="dashboard-section weather-section glass">
           <div className="section-header">
-            <h2>{t('dashboard_view.weather_today')}</h2>
+            <h2>{'dashboard_view.weather_today'}</h2>
             <CloudSun className="text-primary" />
           </div>
           <div className="weather-display">
@@ -120,9 +117,9 @@ const Dashboard = () => {
         {/* Recent Notifications */}
         <section className="dashboard-section notifications-section glass">
           <div className="section-header">
-            <h2>{t('dashboard_view.recent_alerts')}</h2>
+            <h2>{'dashboard_view.recent_alerts'}</h2>
             <button className="btn-link" onClick={() => navigate('/notifications')}>
-              {t('common.view_all')} <ChevronRight size={16} />
+              {'common.view_all'} <ChevronRight size={16} />
             </button>
           </div>
           <div className="notification-list">
@@ -138,7 +135,7 @@ const Dashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="empty-msg">{t('dashboard_view.no_alerts')}</p>
+              <p className="empty-msg">{'dashboard_view.no_alerts'}</p>
             )}
           </div>
         </section>
@@ -146,23 +143,23 @@ const Dashboard = () => {
 
       {/* Quick Actions */}
       <section className="quick-actions">
-        <h2>{t('dashboard_view.quick_tasks')}</h2>
+        <h2>{'dashboard_view.quick_tasks'}</h2>
         <div className="actions-grid">
           <div className="action-card" onClick={() => navigate('/land')}>
             <Map size={20} />
-            <span>{t('dashboard_view.manage_land')}</span>
+            <span>{'dashboard_view.manage_land'}</span>
           </div>
           <div className="action-card" onClick={() => navigate('/crops')}>
             <Sprout size={20} />
-            <span>{t('dashboard_view.add_crop')}</span>
+            <span>{'dashboard_view.add_crop'}</span>
           </div>
           <div className="action-card" onClick={() => navigate('/chatbot')}>
             <MessageSquare size={20} />
-            <span>{t('dashboard_view.ask_ai_chat')}</span>
+            <span>{'dashboard_view.ask_ai_chat'}</span>
           </div>
           <div className="action-card" onClick={() => navigate('/history')}>
             <ChevronRight size={20} />
-            <span>{t('dashboard_view.view_history')}</span>
+            <span>{'dashboard_view.view_history'}</span>
           </div>
         </div>
       </section>

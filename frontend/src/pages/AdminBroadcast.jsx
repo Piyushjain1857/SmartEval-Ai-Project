@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { CloudRain, AlertTriangle, Send, MapPin, Search, Languages } from 'lucide-react';
 import { STATES_AND_CITIES, LANGUAGES } from '../utils/constants';
 
 const AdminBroadcast = () => {
-    const { t } = useTranslation();
     const [state, setState] = useState('');
     const [city, setCity] = useState('');
     const [language, setLanguage] = useState('English');
@@ -39,7 +37,7 @@ const AdminBroadcast = () => {
     return (
         <div className="admin-container">
             <div className="admin-header">
-                <h1>{t('broadcast_alerts') || 'Broadcast Agriculture Alerts'}</h1>
+                <h1>{'Broadcast Agriculture Alerts'}</h1>
                 <p className="subtitle">Send real-time alerts to farmers based on location and current news.</p>
             </div>
 
@@ -47,7 +45,7 @@ const AdminBroadcast = () => {
                 <div className="form-grid">
                     <div className="form-group">
                         <label>
-                            <MapPin size={16} className="label-icon" /> {t('state')} <span className="required">*</span>
+                            <MapPin size={16} className="label-icon" /> {'state'} <span className="required">*</span>
                         </label>
                         <select
                             value={state}
@@ -57,7 +55,7 @@ const AdminBroadcast = () => {
                             }}
                             required
                         >
-                            <option value="">{t('select_state') || 'Select State'}</option>
+                            <option value="">{'Select State'}</option>
                             {states.map(s => (
                                 <option key={s} value={s}>{s}</option>
                             ))}
@@ -65,7 +63,7 @@ const AdminBroadcast = () => {
                     </div>
                     <div className="form-group">
                         <label>
-                            <MapPin size={16} className="label-icon" /> {t('city')} <span className="required">*</span>
+                            <MapPin size={16} className="label-icon" /> {'city'} <span className="required">*</span>
                         </label>
                         <select
                             value={city}
@@ -73,7 +71,7 @@ const AdminBroadcast = () => {
                             required
                             disabled={!state}
                         >
-                            <option value="">{t('select_city') || 'Select City'}</option>
+                            <option value="">{'Select City'}</option>
                             {cities.map(c => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
@@ -81,7 +79,7 @@ const AdminBroadcast = () => {
                     </div>
                     <div className="form-group">
                         <label>
-                            <Languages size={16} className="label-icon" /> {t('broadcast_language') || 'Broadcast Language'} <span className="required">*</span>
+                            <Languages size={16} className="label-icon" /> {'Broadcast Language'} <span className="required">*</span>
                         </label>
                         <select
                             value={language}
@@ -100,47 +98,53 @@ const AdminBroadcast = () => {
                         className="btn-primary weather-btn"
                         disabled={loading}
                         onClick={() => handleBroadcast('Weather')}
-                        style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', display: 'flex', alignItems: 'center', gap: '8px' }}
+                    style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', display: 'flex', alignItems: 'center', gap: '8px' }}
                     >
-                        <CloudRain size={20} /> Broadcast Weather Alert
-                    </button>
-                    <button
-                        className="btn-primary disease-btn"
-                        disabled={loading}
-                        onClick={() => handleBroadcast('Disease')}
-                        style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', display: 'flex', alignItems: 'center', gap: '8px' }}
+                    <CloudRain size={20} /> Broadcast Weather Alert
+                </button>
+                <button
+                    className="btn-primary disease-btn"
+                    disabled={loading}
+                    onClick={() => handleBroadcast('Disease')}
+                style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', display: 'flex', alignItems: 'center', gap: '8px' }}
                     >
-                        <AlertTriangle size={20} /> Broadcast Disease Alert
-                    </button>
-                </div>
+                <AlertTriangle size={20} /> Broadcast Disease Alert
+            </button>
+        </div>
 
-                {loading && (
-                    <div className="loading-spinner" style={{ marginTop: '2rem', textAlign: 'center' }}>
-                        <div className="spinner"></div>
-                        <p>Generating alert using AI and broadcasting to farmers...</p>
-                    </div>
-                )}
-
-                {error && (
-                    <div className="error-message" style={{ marginTop: '2rem', color: '#ef4444', backgroundColor: '#fee2e2', padding: '1rem', borderRadius: '8px' }}>
-                        {error}
-                    </div>
-                )}
-
-                {result && (
-                    <div className="broadcast-success glass" style={{ marginTop: '2rem', border: '1px solid #10b981' }}>
-                        <div style={{ color: '#10b981', fontWeight: 'bold', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Send size={20} /> {result.message}
-                        </div>
-                        <div className="alert-preview">
-                            <h3 style={{ margin: '0 0 0.5rem 0' }}>{result.content.title}</h3>
-                            <p style={{ margin: 0, opacity: 0.8 }}>{result.content.message}</p>
-                        </div>
-                    </div>
-                )}
+                {
+        loading && (
+            <div className="loading-spinner" style={{ marginTop: '2rem', textAlign: 'center' }}>
+                <div className="spinner"></div>
+                <p>Generating alert using AI and broadcasting to farmers...</p>
             </div>
+        )
+    }
 
-            <style>{`
+    {
+        error && (
+            <div className="error-message" style={{ marginTop: '2rem', color: '#ef4444', backgroundColor: '#fee2e2', padding: '1rem', borderRadius: '8px' }}>
+                {error}
+            </div>
+        )
+    }
+
+    {
+        result && (
+            <div className="broadcast-success glass" style={{ marginTop: '2rem', border: '1px solid #10b981' }}>
+                <div style={{ color: '#10b981', fontWeight: 'bold', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Send size={20} /> {result.message}
+                </div>
+                <div className="alert-preview">
+                    <h3 style={{ margin: '0 0 0.5rem 0' }}>{result.content.title}</h3>
+                    <p style={{ margin: 0, opacity: 0.8 }}>{result.content.message}</p>
+                </div>
+            </div>
+        )
+    }
+            </div >
+
+    <style>{`
                 .broadcast-card {
                     padding: 2rem;
                     margin-top: 2rem;
@@ -174,7 +178,7 @@ const AdminBroadcast = () => {
                     border-radius: 8px;
                 }
             `}</style>
-        </div>
+        </div >
     );
 };
 

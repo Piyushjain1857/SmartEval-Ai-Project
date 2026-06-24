@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from typing import List, Optional
-from service.gemini_service import gemini_service
-from service.weather_service import weather_service
+from utils.gemini_util import gemini_service
+from utils.weather_util import weather_service
 from repository.user_repository import user_repository
 from repository.history_repository import history_repository
 from repository.crop_repository import crop_repository
@@ -16,7 +16,6 @@ async def analyze_crop(
     images: List[UploadFile] = File(None),
     crop_type: Optional[str] = Form(None),
     message: Optional[str] = Form(None),
-    language: str = Form("en"),
     current_user: dict = Depends(security_manager.get_current_user)
 ):
     # 1. Fetch User details
@@ -63,7 +62,6 @@ async def analyze_crop(
         location=location,
         weather_data=weather_data,
         history=history_context,
-        language=language,
         message=message
     )
     

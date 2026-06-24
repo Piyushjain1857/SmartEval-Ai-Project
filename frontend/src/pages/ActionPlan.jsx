@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axiosConfig';
 import { Upload, Calendar, ArrowRight, Mic, CheckCircle, AlertTriangle, Leaf, Droplets } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 
 const ActionPlan = () => {
-    const { t, i18n } = useTranslation();
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -28,11 +26,7 @@ const ActionPlan = () => {
             const voices = window.speechSynthesis.getVoices();
             let preferredVoice;
 
-            if (i18n.language === 'hi') {
-                preferredVoice = voices.find(voice =>
-                    voice.lang.includes('hi') || voice.name.includes('Hindi')
-                );
-            }
+
 
             if (!preferredVoice) {
                 // Try to find a female voice or a more natural sounding one if available (e.g., Google US English, Samantha)
@@ -54,7 +48,7 @@ const ActionPlan = () => {
             window.speechSynthesis.speak(utterance);
 
         } else {
-            alert(t('tts_not_supported'));
+            alert('tts_not_supported');
         }
     };
 
@@ -84,7 +78,7 @@ const ActionPlan = () => {
 
     const handleSubmit = async () => {
         if (!selectedFile) {
-            setError(t('select_files'));
+            setError('select_files');
             return;
         }
 
@@ -92,7 +86,6 @@ const ActionPlan = () => {
         setLoading(true);
         const formData = new FormData();
         formData.append('file', selectedFile);
-        formData.append('lang', i18n.language);
 
         try {
             const response = await axios.post('/diagnosis/analyze', formData, {
@@ -104,7 +97,7 @@ const ActionPlan = () => {
             setPlan(response.data);
         } catch (err) {
             console.error("Error analyzing crop:", err);
-            setError(t('error_analyzing') || "Failed to analyze crop. Please try again.");
+            setError("Failed to analyze crop. Please try again.");
         } finally {
 
             setLoading(false);
@@ -115,7 +108,8 @@ const ActionPlan = () => {
         if (plan && selectedFile && !loading) {
             handleSubmit();
         }
-    }, [i18n.language]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (plan) {
         return (
@@ -125,12 +119,12 @@ const ActionPlan = () => {
                     <div className="disease-info">
                         <h2>
                             <AlertTriangle size={24} />
-                            {t('Disease Detected')}: {plan.disease_name}
+                            {'Disease Detected'}: {plan.disease_name}
                         </h2>
                         <div className="disease-meta">
                             <span>
                                 <Droplets size={18} />
-                                {t('weather')}: <b>{plan.weather}</b>
+                                {'weather'}: <b>{plan.weather}</b>
                             </span>
 
                         </div>
@@ -144,7 +138,7 @@ const ActionPlan = () => {
                 <div className="timeline-section">
                     <h3>
                         <Calendar size={24} />
-                        {t('day_plan_title')}
+                        {'day_plan_title'}
                     </h3>
 
 
@@ -162,12 +156,12 @@ const ActionPlan = () => {
                                         <button
                                             className={`btn-voice ${speakingDay === index ? 'active' : ''}`}
                                             onClick={() => {
-                                                const textToSpeak = `${day.day}. ${day.title}. ${day.tasks.join('. ')}. ${day.reminder ? t('reminder') + ': ' + day.reminder : ''}`;
+                                                const textToSpeak = `${day.day}. ${day.title}. ${day.tasks.join('. ')}. ${day.reminder ? 'reminder' + ': ' + day.reminder : ''}`;
                                                 speakText(textToSpeak, index);
                                             }}
                                         >
                                             <Mic size={16} />
-                                            <span>{speakingDay === index ? t('stop') : t('listen')}</span>
+                                            <span>{speakingDay === index ? 'stop' : 'listen'}</span>
                                         </button>
 
 
@@ -185,7 +179,7 @@ const ActionPlan = () => {
                                     {day.reminder && (
                                         <div className="reminder-box">
                                             <AlertTriangle size={16} />
-                                            <span>{t('reminder')}: {day.reminder}</span>
+                                            <span>{'reminder'}: {day.reminder}</span>
                                         </div>
                                     )}
 
@@ -198,7 +192,7 @@ const ActionPlan = () => {
                         onClick={() => setPlan(null)}
                         className="btn-reset"
                     >
-                        {t('upload_new')}
+                        {'upload_new'}
                     </button>
 
                 </div>
@@ -209,8 +203,8 @@ const ActionPlan = () => {
     return (
         <div className="action-plan-container">
             <div className="action-plan-header">
-                <h1>{t('action_plan_title')}</h1>
-                <p>{t('action_plan_subtitle')}</p>
+                <h1>{'action_plan_title'}</h1>
+                <p>{'action_plan_subtitle'}</p>
             </div>
 
 
@@ -236,7 +230,7 @@ const ActionPlan = () => {
                             onClick={(e) => { e.stopPropagation(); setSelectedFile(null); setPreview(null); }}
                             className="btn-remove"
                         >
-                            {t('remove')}
+                            {'remove'}
                         </button>
                     </div>
                 ) : (
@@ -244,8 +238,8 @@ const ActionPlan = () => {
                         <div className="upload-icon-wrapper">
                             <Upload size={32} />
                         </div>
-                        <h3>{t('click_upload')}</h3>
-                        <p style={{ color: '#888', marginTop: '0.5rem' }}>{t('file_type_hint')}</p>
+                        <h3>{'click_upload'}</h3>
+                        <p style={{ color: '#888', marginTop: '0.5rem' }}>{'file_type_hint'}</p>
                     </label>
 
                 )}
@@ -265,11 +259,11 @@ const ActionPlan = () => {
                 {loading ? (
                     <>
                         <div className="spinner" style={{ width: 20, height: 20, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-                        <span>{t('analyzing_spinner')}</span>
+                        <span>{'analyzing_spinner'}</span>
                     </>
                 ) : (
                     <>
-                        <span>{t('get_plan')}</span>
+                        <span>{'get_plan'}</span>
                         <ArrowRight size={20} />
                     </>
                 )}
