@@ -16,7 +16,7 @@ import {
 
 const useNavItems = () => {
     const farmerMenuItems = [
-        { id: 'dashboard', label: 'dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
+        { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'Question Bank', label: 'Question Bank', path: '/question-bank', icon: <User size={20} /> },
         { id: 'Question Papers', label: 'Question Papers', path: '/question-papers', icon: <Map size={20} /> },
         { id: 'Evaluations', label: 'Evaluations', path: '/Evaluations', icon: <Sprout size={20} /> },

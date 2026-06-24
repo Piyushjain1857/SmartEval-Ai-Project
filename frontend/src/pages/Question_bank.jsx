@@ -64,7 +64,7 @@ const QuestionBank = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div>
+        <>
             <h2>Question Management</h2>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -111,7 +111,7 @@ const QuestionBank = () => {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </>
     );
 };
 
