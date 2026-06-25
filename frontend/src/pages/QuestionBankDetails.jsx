@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -114,6 +115,10 @@ const styles = {
 };
 
 const QuestionBankDetails = () => {
+  const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isViewMode = new URLSearchParams(location.search).get("mode") === "view";
   const [newQuestion, setNewQuestion] = useState({
     question_text: "",
     answer: "",
@@ -126,10 +131,18 @@ const QuestionBankDetails = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8000/question/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log(res.status)
+      if (id) {
+        setEditingId(id);
+        const res = await axios.get(`http://localhost:8000/question/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setNewQuestion({
+          question_text: res.data.question_text,
+          answer: res.data.answer,
+          m_marks: res.data.m_marks,
+          question_no: res.data.question_no,
+        });
+      }
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -140,7 +153,7 @@ const QuestionBankDetails = () => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleChange = (e) => {
     setNewQuestion({ ...newQuestion, [e.target.name]: e.target.value });
@@ -168,7 +181,7 @@ const QuestionBankDetails = () => {
         m_marks: 0,
         question_no: 0,
       });
-      fetchData();
+      navigate('/question-bank');
     } catch (err) {
       console.error(err);
     }
@@ -179,26 +192,31 @@ const QuestionBankDetails = () => {
   return (
     <div style={styles.container}>
 
-      <h2 style={styles.heading}>📚 Question Management</h2>
+      <h2 style={styles.heading}>
+        {isViewMode ? "👁️ View Question" : editingId ? "✏️ Edit Question" : "📚 Add Question"}
+      </h2>
 
       <form onSubmit={handleSubmit} style={styles.form}>
         <div>
           <label>Question Number *</label>
-          <input type="number" name="question_no" value={newQuestion.question_no} onChange={handleChange} required style={styles.input} />
+          <input type="number" name="question_no" value={newQuestion.question_no} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
         </div>
         <div>
           <label>Marks *</label>
-          <input type="number" name="m_marks" value={newQuestion.m_marks} onChange={handleChange} required style={styles.input} />
+          <input type="number" name="m_marks" value={newQuestion.m_marks} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
         </div>
         <div>
           <label>Question Text *</label>
-          <textarea name="question_text" value={newQuestion.question_text} onChange={handleChange} required style={styles.input} />
+          <textarea name="question_text" value={newQuestion.question_text} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
         </div>
         <div>
           <label>Answer *</label>
-          <textarea name="answer" value={newQuestion.answer} onChange={handleChange} required style={styles.input} />
+          <textarea name="answer" value={newQuestion.answer} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
         </div>
-        <button type="submit" style={styles.button}>{editingId ? "Update Question" : "Add Question"}</button>
+        {!isViewMode && (
+          <button type="submit" style={styles.button}>{editingId ? "Update Question" : "Add Question"}</button>
+        )}
+        <button type="button" style={{...styles.button, background: "#6b7280"}} onClick={() => navigate('/question-bank')}> Back to Question Bank </button>
       </form>
 
     </div>

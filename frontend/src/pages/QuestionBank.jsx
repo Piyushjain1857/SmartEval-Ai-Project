@@ -67,6 +67,15 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer",
   },
+  viewButton: {
+    background: "#10b981",
+    color: "#fff",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginRight: "8px",
+  },
   confirmButton: {
     background: "#dc2626",
     color: "#fff",
@@ -143,7 +152,7 @@ const QuestionBank = () => {
   };
 
   const handleView = (id) => {
-    navigate(`/question-bank-details/${id}`);
+    navigate(`/question-bank-details/${id}?mode=view`);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -171,7 +180,7 @@ const QuestionBank = () => {
               <td style={styles.td}>{q.answer}</td>
               <td style={styles.td}>{q.m_marks}</td>
               <td style={styles.td}>
-                <button type="button" style={styles.editButton} onClick={() => handleView(q.id)}>view</button>
+                <button type="button" style={styles.viewButton} onClick={() => handleView(q.id)}>view</button>
                 <button type="button" style={styles.editButton} onClick={() => handleEdit(q.id)}>Edit</button>
                 <button type="button" style={styles.deleteButton} onClick={() => setDeleteId(q.id)}>Delete</button>
               </td>
