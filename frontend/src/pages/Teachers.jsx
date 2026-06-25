@@ -136,10 +136,12 @@ const Teachers = () => {
             const res = await axios.get("http://localhost:8000/teacher/", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setTeachers(res.data);
+            // Safely set teachers to an array even if the backend returns a string
+            setTeachers(Array.isArray(res.data) ? res.data : []);
             setLoading(false);
         } catch (err) {
             console.error(err);
+            setTeachers([]);
             setLoading(false);
         }
     };
@@ -163,15 +165,15 @@ const Teachers = () => {
     };
 
     const handleEdit = (id) => {
-        navigate(`/teacher-bank-details/${id}`);
+        navigate(`/teacher-details/${id}`);
     };
 
     const handleView = (id) => {
-        navigate(`/teacher-bank-details/${id}?mode=view`);
+        navigate(`/teacher-details/${id}?mode=view`);
     };
 
     const handleAdd = () => {
-        navigate(`/question-bank-details`);
+        navigate(`/teacher-details/new`);
     };
 
     if (loading) return <div>Loading...</div>;
@@ -181,7 +183,7 @@ const Teachers = () => {
 
             <div style={styles.headerContainer}>
                 <h2 style={styles.heading}>📝 Teachers List</h2>
-                <button type="button" style={styles.addButton} onClick={handleAdd}>+ Add Question</button>
+                <button type="button" style={styles.addButton} onClick={handleAdd}>+ Add Teacher</button>
             </div>
             <table style={styles.table}>
                 <thead>

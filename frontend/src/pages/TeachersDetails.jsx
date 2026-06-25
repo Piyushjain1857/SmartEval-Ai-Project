@@ -121,9 +121,9 @@ const TeachersDetails = () => {
     const isViewMode = new URLSearchParams(location.search).get("mode") === "view";
     const [newTeacher, setNewTeacher] = useState({
         teacher_no: "",
-        teacher_name: 0,
-        contact_no: 0,
-        email: "",
+        teacher_name: "",
+        teacher_contact_no: "",
+        teacher_email: "",
     });
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
@@ -137,10 +137,10 @@ const TeachersDetails = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setNewTeacher({
-                    teacher_text: res.data.teacher_text,
-                    answer: res.data.answer,
-                    m_marks: res.data.m_marks,
-                    teacher_no: res.data.teacher_no,
+                    teacher_no: res.data.teacher_no || "",
+                    teacher_name: res.data.teacher_name || "",
+                    teacher_contact_no: res.data.teacher_contact_no || "",
+                    teacher_email: res.data.teacher_email || "",
                 });
             }
             setLoading(false);
@@ -176,12 +176,12 @@ const TeachersDetails = () => {
             setEditingId(null);
 
             setNewTeacher({
-                teacher_text: "",
-                answer: "",
-                m_marks: 0,
-                teacher_no: 0,
+                teacher_no: "",
+                teacher_name: "",
+                teacher_contact_no: "",
+                teacher_email: "",
             });
-            navigate('/teacher-bank');
+            navigate('/teachers');
         } catch (err) {
             console.error(err);
         }
@@ -205,20 +205,20 @@ const TeachersDetails = () => {
                 </div>
                 <div>
                     <label>Teacher Name</label>
-                    <textarea name="teacher_name" value={newTeacher.teacher_name} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
+                    <input type="text" name="teacher_name" value={newTeacher.teacher_name} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
                 </div>
                 <div>
                     <label>Contact No. </label>
-                    <input type="number" name="contact_no" value={newTeacher.contact_no} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
+                    <input type="number" name="teacher_contact_no" value={newTeacher.teacher_contact_no} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
                 </div>
                 <div>
                     <label>Email </label>
-                    <textarea name="email" value={newTeacher.email} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
+                    <input type="email" name="teacher_email" value={newTeacher.teacher_email} onChange={handleChange} required disabled={isViewMode} style={styles.input} />
                 </div>
                 {!isViewMode && (
                     <button type="submit" style={styles.button}>{editingId ? "Update Teacher" : "Add Teacher"}</button>
                 )}
-                <button type="button" style={{ ...styles.button, background: "#6b7280" }} onClick={() => navigate('/teacher-bank')}> Back to Teacher Bank </button>
+                <button type="button" style={{ ...styles.button, background: "#6b7280" }} onClick={() => navigate('/teachers')}> Back to Teacher's Home Page </button>
             </form>
 
         </div>

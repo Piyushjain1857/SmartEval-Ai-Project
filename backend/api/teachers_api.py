@@ -14,7 +14,7 @@ def create_teacher(teacher: TeacherCreate):
 def get_all_teachers():
     teachers = teacher_repository.get_all_teacher()
     if not teachers:
-        return "No data exists"
+        return []
     else:
         return teachers
 

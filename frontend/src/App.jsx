@@ -43,22 +43,22 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/profile" element={<PrivateRoute><FarmerProfile /></PrivateRoute>} />
             <Route path="/land" element={<PrivateRoute><LandDetails /></PrivateRoute>} />
             <Route path="/crops" element={<PrivateRoute><CropDetails /></PrivateRoute>} />
             <Route path="/history" element={<PrivateRoute><PastHistory /></PrivateRoute>} />
             <Route path="/chatbot" element={<PrivateRoute><FarmerChatbot /></PrivateRoute>} />
             <Route path="/discussions" element={<PrivateRoute><DiscussionHistory /></PrivateRoute>} />
-            <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
+            <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} /> */}
             <Route path="/action-plan" element={<PrivateRoute><ActionPlan /></PrivateRoute>} />
             <Route path="/question-bank" element={<QuestionBank />} />
             <Route path="/question-bank-details" element={<QuestionBankDetails />} />
             <Route path="/question-bank-details/:id" element={<QuestionBankDetails />}/>
 
             <Route path="/teachers" element={<Teachers />} />
-            <Route path="/teachers-details" element={<TeachersDetails />} />
-            <Route path="/teachers-details/:id" element={<TeachersDetails />}/>
+            <Route path="/teacher-details" element={<TeachersDetails />} />
+            <Route path="/teacher-details/:id" element={<TeachersDetails />}/>
 
             <Route path="/admin/farmers" element={<PrivateRoute><AdminFarmers /></PrivateRoute>} />
             <Route path="/admin/broadcast" element={<PrivateRoute><AdminBroadcast /></PrivateRoute>} />
