@@ -19,6 +19,8 @@ import Notifications from './pages/Notifications';
 import ActionPlan from './pages/ActionPlan';
 import QuestionBank from './pages/QuestionBank';
 import QuestionBankDetails from './pages/QuestionBankDetails';
+import Teachers from './pages/Teachers';
+import TeachersDetails from './pages/TeachersDetails';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -53,6 +55,10 @@ function App() {
             <Route path="/question-bank" element={<QuestionBank />} />
             <Route path="/question-bank-details" element={<QuestionBankDetails />} />
             <Route path="/question-bank-details/:id" element={<QuestionBankDetails />}/>
+
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/teachers-details" element={<TeachersDetails />} />
+            <Route path="/teachers-details/:id" element={<TeachersDetails />}/>
 
             <Route path="/admin/farmers" element={<PrivateRoute><AdminFarmers /></PrivateRoute>} />
             <Route path="/admin/broadcast" element={<PrivateRoute><AdminBroadcast /></PrivateRoute>} />

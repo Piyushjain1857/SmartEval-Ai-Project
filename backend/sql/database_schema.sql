@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS question (
 );
 
 -- Teachers
-CREATE TABLE IF NOT EXISTS question (
+CREATE TABLE IF NOT EXISTS teacher (
     id SERIAL PRIMARY KEY ,
     teacher_no SERIAL INT NOT NULL UNIQUE,
     teacher_name TEXT NOT NULL,

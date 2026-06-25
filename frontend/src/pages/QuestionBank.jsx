@@ -107,6 +107,21 @@ const styles = {
     cursor: "pointer",
     marginRight: "8px",
   },
+  headerContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+  },
+  addButton: {
+    background: "#3b82f6",
+    color: "#fff",
+    border: "none",
+    padding: "10px 16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
 };
 
 const QuestionBank = () => {
@@ -155,12 +170,19 @@ const QuestionBank = () => {
     navigate(`/question-bank-details/${id}?mode=view`);
   };
 
+  const handleAdd = () => {
+    navigate(`/question-bank-details`);
+  };
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <div style={styles.container}>
 
-      <h2 style={styles.heading}>📝 Questions List</h2>
+      <div style={styles.headerContainer}>
+        <h2 style={styles.heading}>📝 Questions List</h2>
+        <button type="button" style={styles.addButton} onClick={handleAdd}>+ Add Question</button>
+      </div>
 
       <table style={styles.table}>
         <thead>
