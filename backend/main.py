@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import auth_api, farmer_api, admin_api, chat_api, discussion_api, diagnosis_api, questions_api
+from api import questions_api , teachers_api
 from seed_db import seed_data
 
 app = FastAPI(title="SmartEval AI API")
@@ -28,6 +28,7 @@ app.add_middleware(
 # app.include_router(discussion_api.router)
 # app.include_router(diagnosis_api.router)
 app.include_router(questions_api.router)
+app.include_router(teachers_api.router)
 
 
 @app.get("/")
@@ -36,4 +37,4 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0",port=8000, reload=True, )

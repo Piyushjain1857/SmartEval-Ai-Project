@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS history (
 -- Question 
 CREATE TABLE IF NOT EXISTS question (
     id SERIAL PRIMARY KEY ,
-    question_no INT NOT NULL UNIQUE,
+    question_no SERIAL INT NOT NULL UNIQUE,
     question_text TEXT NOT NULL,
     answer TEXT NOT NULL,
     m_marks INT NOT NULL,
@@ -73,3 +73,14 @@ CREATE TABLE IF NOT EXISTS question (
     created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
 );
+
+-- Teachers
+CREATE TABLE IF NOT EXISTS question (
+    id SERIAL PRIMARY KEY ,
+    teacher_no SERIAL INT NOT NULL UNIQUE,
+    teacher_name TEXT NOT NULL,
+    teacher_contact_no INT NOT NULL UNIQUE,
+    teacher_email TEXT NOT NULL,
+    created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

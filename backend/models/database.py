@@ -126,4 +126,12 @@ class QuestionDB(Base):
     m_marks: Mapped[int] = mapped_column(Integer)
     created_by: Mapped[str] = mapped_column(String(255) , nullable=True)
     created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+class TeachersDB(Base):
+    __tablename__ = "Teachers"
     
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    teacher_no: Mapped[int] = mapped_column(Integer, nullable=True)
+    teacher_name: Mapped[str] = mapped_column(String(255))
+    teacher_contact_no: Mapped[int] = mapped_column(Integer, nullable=True)
+    teacher_email: Mapped[str] = mapped_column(String(255) , nullable=True)

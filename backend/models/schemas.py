@@ -127,3 +127,25 @@ class QuestionResponse(QuestionBase):
 
     class Config:
         from_attributes = True
+
+
+class TeacherBase(BaseModel):
+    teacher_name: str
+    teacher_no: int
+    teacher_email: str
+    teacher_contact_no: int
+
+class TeacherCreate(TeacherBase):
+    pass
+
+class TeacherUpdate(BaseModel):
+    teacher_name: Optional[str] = None
+    teacher_no: Optional[int] = None
+    teacher_email: Optional[str] = None
+    teacher_contact_no: Optional[int] = None
+
+class TeacherResponse(TeacherBase):
+    id: int
+
+    class Config:
+        from_attributes = True
