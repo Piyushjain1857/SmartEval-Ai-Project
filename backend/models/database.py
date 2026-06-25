@@ -135,3 +135,12 @@ class TeachersDB(Base):
     teacher_name: Mapped[str] = mapped_column(String(255))
     teacher_contact_no: Mapped[int] = mapped_column(Integer, nullable=True)
     teacher_email: Mapped[str] = mapped_column(String(255) , nullable=True)
+
+class QuestionPaperDB(Base):
+    __tablename__ = "QuestionPaper"
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    question_paper_name: Mapped[str] = mapped_column(String(255))
+    subject_name: Mapped[str] = mapped_column(String(255))
+    m_marks: Mapped[int] = mapped_column(Integer, nullable=True)
+    no_of_questions: Mapped[int] = mapped_column(Integer, nullable=True)

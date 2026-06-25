@@ -149,3 +149,24 @@ class TeacherResponse(TeacherBase):
 
     class Config:
         from_attributes = True
+
+class QuestionPaperBase(BaseModel):
+    question_paper_name: str
+    subject_name: str
+    m_marks: int
+    no_of_questions: int
+
+class QuestionPaperCreate(QuestionPaperBase):
+    pass
+
+class QuestionPaperUpdate(BaseModel):
+    question_paper_name: Optional[str] = None
+    subject_name: Optional[str] = None
+    m_marks: Optional[int] = None
+    no_of_questions: Optional[int] = None
+
+class QuestionPaperResponse(QuestionPaperBase):
+    id: int
+
+    class Config:
+        from_attributes = True

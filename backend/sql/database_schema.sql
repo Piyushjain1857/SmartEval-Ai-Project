@@ -84,3 +84,11 @@ CREATE TABLE IF NOT EXISTS teacher (
     created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Question Paper
+CREATE TABLE IF NOT EXISTS teacher (
+    id SERIAL PRIMARY KEY ,
+    question_paper_name TEXT NOT NULL,
+    subject_name TEXT NOT NULL,
+    m_marks INT NOT NULL ,
+    no_of_questions INT NOT NULL ,
+);

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import questions_api , teachers_api
+from api import questions_api , teachers_api , question_paper_api
 from seed_db import seed_data
 
 app = FastAPI(title="SmartEval AI API")
@@ -29,6 +29,7 @@ app.add_middleware(
 # app.include_router(diagnosis_api.router)
 app.include_router(questions_api.router)
 app.include_router(teachers_api.router)
+app.include_router(question_paper_api.router)
 
 
 @app.get("/")
