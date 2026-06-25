@@ -131,7 +131,7 @@ const QuestionBankDetails = () => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (id) {
+      if (id && id !== "new") {
         setEditingId(id);
         const res = await axios.get(`http://localhost:8000/question/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -187,7 +187,9 @@ const QuestionBankDetails = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading && id && id !== "new") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={styles.container}>
